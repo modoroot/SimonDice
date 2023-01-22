@@ -18,6 +18,11 @@ import android.widget.Toast;
 
 import java.util.Random;
 
+/**
+ * Clase que crea un juego de Simón Dice básico con un teclado numérico y sonidos
+ * @author amna
+ * @version 1.0
+ */
 public class MainActivity extends AppCompatActivity {
     Button button0, button1, button2, button3, button4,
             button5, button6, button7, button8, button9, buttonIniciarJuego;
@@ -40,14 +45,18 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.modo_facil) {
+            //Reinicia el juego
             recreate();
             return true;
         }
         if (id == R.id.modo_dificil) {
-            // Handle the about action
-            return true;
+            if(mp1!=null){
+                //Modifica la velocidad de reproducción del audio
+                int speed = 2;
+                mp1.setPlaybackParams(mp1.getPlaybackParams().setSpeed(speed));
+                return true;
+            }
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -80,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
             // Crea una animación de rotación de 360 grados
             ObjectAnimator animator = ObjectAnimator.ofFloat(buttonIniciarJuego,
                     "rotation", 0f, 360f);
-            animator.setDuration(500); // duración de 0.5 segundo
+            animator.setDuration(500); // duración de 0.5 segundos
             animator.start();
         });
 
@@ -412,7 +421,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Controla la clase MediaPlayer
+     * Libera los recursos del MediaPlayer para que otros sonidos puedan ser utilizados
      */
     @Override
     protected void onStop() {
